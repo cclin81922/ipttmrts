@@ -24,7 +24,6 @@ type IData interface {
     SetStation(Station)
 }
 
-```
 func Map(data IData) {
     ip := data.GetIP()
     station  := ipToTaipeiMRTStation(ip)
