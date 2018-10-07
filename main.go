@@ -63,12 +63,13 @@ func ipStrToNetIP(ip string) net.IP {
 
 func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 	// TODO
-	return 25.0478, 121.5320
+	return 25.062150, 121.660246 // https://www.google.com.tw/maps CORRECT
+	// return 25.0478, 121.5320 // https://tools.keycdn.com/geo WRONG
 }
 
 func ipToTaipeiMRTStation(ip net.IP) (nearStation Station) {
 	stations := []*Station{
-		&Station{NameTW: "南港展覽館", Latitude: 25.0553846, Longitude: 25.0553846},
+		&Station{NameTW: "南港展覽館", Latitude: 25.0553846, Longitude: 121.6182655},
 		&Station{NameTW: "昆陽", Latitude: 25.0501585, Longitude: 121.593423},
 		&Station{NameTW: "後山埤", Latitude: 25.045054, Longitude: 121.582522},
 		&Station{NameTW: "永春", Latitude: 25.0407066, Longitude: 121.5765839},
