@@ -42,6 +42,27 @@ func ipStrToNetIP(ip string) net.IP {
 	return netIP
 }
 
+func merge(distance ...<-chan float64) <-chan float64 {
+	out := make(chan float64)
+
+	// TODO
+
+	return out
+}
+
+func distanceOfTwoPointsByLatitudeLongitude(latitude1, longitude1, latitude2, longitude2 float64) <-chan float64 {
+	out := make(chan float64)
+
+	// TODO
+
+	return out
+}
+
+func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
+	// TODO
+	return 0, 0
+}
+
 func ipToTaipeiMRTStation(ip net.IP) Station {
 	stations := []Station{
 		{"南港展覽館", "", 0, 0},
@@ -96,10 +117,22 @@ func ipToTaipeiMRTStation(ip net.IP) Station {
 	}
 	_ = stations
 
-	// TODO
-	// ipToLatitudeLongitude
-	// distanceOfTwoPointsByLatitudeLongitude
-	// pipelineOfCalculateThenSort
+	latitude, longitude := ipToLatitudeLongitude(ip)
+
+	distances := make([]<-chan float64, 0)
+	for _, station := range stations {
+		distance := distanceOfTwoPointsByLatitudeLongitude(station.Latitude, station.Longitude, latitude, longitude)
+		distances = append(distances, distance)
+	}
+
+	var minDistance float64
+	for distance := range merge(distances...) {
+		if minDistance > distance {
+			minDistance = distance
+		}
+	}
+
+	// TODO return the station of minimum distance
 	return Station{NameTW: "西門", NameEN: "Ximen"}
 }
 
