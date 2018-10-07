@@ -63,8 +63,19 @@ func ipStrToNetIP(ip string) net.IP {
 
 func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 	// TODO
-	return 25.062150, 121.660246 // https://www.google.com.tw/maps CORRECT
+	// return 25.062150, 121.660246 // https://www.google.com.tw/maps CORRECT
 	// return 25.0478, 121.5320 // https://tools.keycdn.com/geo WRONG
+	return 25.0626048, 121.6569344 // geplocation api
+
+	// curl -X POST https://www.googleapis.com/geolocation/v1/geolocate?key=${APIKey}
+	//
+	//	{
+	//		"location": {
+	//			"lat": 25.0626048,
+	//			"lng": 121.6569344
+	//		},
+	//		"accuracy": 464.0
+	//	}
 }
 
 func ipToTaipeiMRTStation(ip net.IP) (nearStation Station) {
