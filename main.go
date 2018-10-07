@@ -57,15 +57,15 @@ func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 }
 
 func ipToTaipeiMRTStation(ip net.IP) Station {
-	stations := []*Station{
-		&Station{NameTW: "南港展覽館", Latitude: 0, Longitude: 0},
+	stations := []*Station{ // TODO
+		&Station{NameTW: "南港展覽館", Latitude: 25.0553846, Longitude: 25.0553846},
 		&Station{NameTW: "昆陽", Latitude: 0, Longitude: 0},
 		&Station{NameTW: "後山埤", Latitude: 0, Longitude: 0},
 		&Station{NameTW: "永春", Latitude: 0, Longitude: 0},
 		&Station{NameTW: "市政府", Latitude: 0, Longitude: 0},
 		&Station{NameTW: "國父紀念館", Latitude: 0, Longitude: 0},
 		&Station{NameTW: "忠孝敦化", Latitude: 0, Longitude: 0},
-		&Station{NameTW: "忠孝復興", Latitude: 0, Longitude: 0},
+		&Station{NameTW: "忠孝復興", Latitude: 25.0553846, Longitude: 25.0553846},
 		&Station{NameTW: "忠孝新生", Latitude: 0, Longitude: 0},
 		&Station{NameTW: "善導寺", Latitude: 0, Longitude: 0},
 		&Station{NameTW: "台北車站", Latitude: 0, Longitude: 0},
