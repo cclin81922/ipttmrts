@@ -36,3 +36,4 @@ func Map(data IData) {
 * [Online tool to calculate distance between two location](http://www.storyday.com/wp-content/uploads/2008/09/latlung_dis.html)
 * [Open data of Taipei MRT stations](https://fusiontables.google.com/DataSource?docid=1QL2wqpruEvkPKhfb14Md9JMBzQIcKFFJ8wfAmORu#card:id=2)
 * [Goland code to calculate distance between two location](https://blog.csdn.net/u013421629/article/details/72722714)
+* [Google Geolocation API to get location](https://developers.google.com/maps/documentation/geolocation/intro)
