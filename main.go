@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"math"
 	"net"
 	"os"
 	"strconv"
@@ -23,10 +25,18 @@ func (s Station) String() string {
 }
 
 func (s *Station) setDistanceAwayFrom(latitude, longitude float64) {
-
 	// TODO
-	s.Distance = 0
+	radius := 6378.137
+	rad := math.Pi / 180.0
+	lat1 := s.Latitude * rad
+	lng1 := s.Longitude * rad
+	lat2 := latitude * rad
+	lng2 := longitude * rad
+	theta := lng2 - lng1
+	dist := math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta))
+	s.Distance = dist * radius
 
+	log.Printf("DEBUG %s %g", s.NameTW, s.Distance)
 }
 
 // IData ...
@@ -56,7 +66,7 @@ func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 	return 25.0478, 121.5320
 }
 
-func ipToTaipeiMRTStation(ip net.IP) Station {
+func ipToTaipeiMRTStation(ip net.IP) (nearStation Station) {
 	stations := []*Station{
 		&Station{NameTW: "南港展覽館", Latitude: 25.0553846, Longitude: 25.0553846},
 		&Station{NameTW: "昆陽", Latitude: 25.0501585, Longitude: 121.593423},
@@ -121,16 +131,15 @@ func ipToTaipeiMRTStation(ip net.IP) Station {
 	}
 	wg.Wait()
 
-	var minDistance float64
-	var nearStation *Station
+	minDistance := math.MaxFloat64
 	for _, station := range stations {
 		if minDistance > station.Distance {
 			minDistance = station.Distance
-			nearStation = station
+			nearStation = *station
 		}
 	}
 
-	return *nearStation
+	return
 }
 
 func main() {
