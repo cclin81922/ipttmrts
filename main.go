@@ -53,7 +53,7 @@ func ipStrToNetIP(ip string) net.IP {
 
 func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 	// TODO
-	return 0, 0
+	return 25.0478, 121.5320
 }
 
 func ipToTaipeiMRTStation(ip net.IP) Station {
