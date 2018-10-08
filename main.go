@@ -146,7 +146,7 @@ func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 
 type payloadGoogle struct {
 	Location struct {
-		Latitude  float64 `json:"lag"`
+		Latitude  float64 `json:"lat"`
 		Longitude float64 `json:"lng"`
 	} `json:"location"`
 	Accuracy float64 `json:"accuracy"`
@@ -174,6 +174,7 @@ func googleMyLatitudeLongitude() (float64, float64) {
 		panic(err)
 	}
 
+	// log.Printf("DEBUG %g %g", payload.Location.Latitude, payload.Location.Longitude)
 	return payload.Location.Latitude, payload.Location.Longitude
 
 	// API CALL EXAMPLE
