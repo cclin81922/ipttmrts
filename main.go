@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"net"
 	"os"
@@ -25,7 +24,6 @@ func (s Station) String() string {
 }
 
 func (s *Station) setDistanceAwayFrom(latitude, longitude float64) {
-	// TODO
 	radius := 6378.137
 	rad := math.Pi / 180.0
 	lat1 := s.Latitude * rad
@@ -36,7 +34,7 @@ func (s *Station) setDistanceAwayFrom(latitude, longitude float64) {
 	dist := math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta))
 	s.Distance = dist * radius
 
-	log.Printf("DEBUG %s %g", s.NameTW, s.Distance)
+	// log.Printf("DEBUG %s %g", s.NameTW, s.Distance)
 }
 
 // IData ...
@@ -63,11 +61,47 @@ func ipStrToNetIP(ip string) net.IP {
 
 func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 	// TODO
-	// return 25.062150, 121.660246 // https://www.google.com.tw/maps CORRECT
-	// return 25.0478, 121.5320 // https://tools.keycdn.com/geo WRONG
-	return 25.0626048, 121.6569344 // geplocation api
+	return 25.0478, 121.5320
 
-	// curl -X POST https://www.googleapis.com/geolocation/v1/geolocate?key=${APIKey}
+	// API CALL EXAMPLE
+	//
+	// curl -X GET https://tools.keycdn.com/geo.json?host=${IP OR HOSTNAME}
+	//
+	//	{
+	//		"status": "success",
+	//		"description": "Data successfully received.",
+	//		"data": {
+	//			"geo": {
+	//				"host": "101.15.22.238",
+	//				"ip": "101.15.22.238",
+	//				"rdns": "101.15.22.238",
+	//				"asn": 24158,"isp":
+	//				"Taiwan Mobile Co., Ltd.",
+	//				"country_name": "Taiwan",
+	//				"country_code": "TW",
+	//				"region_name": "Taipei City",
+	//				"region_code": "TPE",
+	//				"city": "Taipei",
+	//				"postal_code": null,
+	//				"continent_name": "Asia",
+	//				"continent_code": "AS",
+	//				"latitude": 25.0478,
+	//				"longitude": 121.5318,
+	//				"metro_code": null,
+	//				"timezone":	"Asia\/Taipei",
+	//				"datetime": "2018-10-08 09:50:30"
+	//			}
+	//		}
+	//	}
+}
+
+func googleMyLatitudeLongitude() (float64, float64) {
+	// TODO
+	return 25.0626048, 121.6569344
+
+	// API CALL EXAMPLE
+	//
+	// curl -X POST https://www.googleapis.com/geolocation/v1/geolocate?key=${GoogleGeolocationAPIKey}
 	//
 	//	{
 	//		"location": {
@@ -79,6 +113,18 @@ func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 }
 
 func ipToTaipeiMRTStation(ip net.IP) (nearStation Station) {
+	latitude, longitude := ipToLatitudeLongitude(ip)
+	nearStation = findNearTaipeiMRTStation(latitude, longitude)
+	return
+}
+
+func googleMyTaipeiMRTStation() (nearStation Station) {
+	latitude, longitude := googleMyLatitudeLongitude()
+	nearStation = findNearTaipeiMRTStation(latitude, longitude)
+	return
+}
+
+func findNearTaipeiMRTStation(latitude, longitude float64) (nearStation Station) {
 	stations := []*Station{
 		&Station{NameTW: "南港展覽館", Latitude: 25.0553846, Longitude: 121.6182655},
 		&Station{NameTW: "昆陽", Latitude: 25.0501585, Longitude: 121.593423},
@@ -131,8 +177,6 @@ func ipToTaipeiMRTStation(ip net.IP) (nearStation Station) {
 		&Station{NameTW: "象山", Latitude: 25.032939, Longitude: 121.5688409},
 	}
 
-	latitude, longitude := ipToLatitudeLongitude(ip)
-
 	wg := sync.WaitGroup{}
 	wg.Add(len(stations))
 	for _, station := range stations {
@@ -155,7 +199,11 @@ func ipToTaipeiMRTStation(ip net.IP) (nearStation Station) {
 }
 
 func main() {
-	ip := os.Args[1] // TODO error handling
-	netIP := ipStrToNetIP(ip)
-	fmt.Println(ipToTaipeiMRTStation(netIP))
+	if len(os.Args) == 1 {
+		fmt.Println(googleMyTaipeiMRTStation())
+	} else {
+		ip := os.Args[1] // TODO error handling
+		netIP := ipStrToNetIP(ip)
+		fmt.Println(ipToTaipeiMRTStation(netIP))
+	}
 }
