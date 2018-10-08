@@ -1,9 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"math"
 	"net"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -34,7 +38,7 @@ func (s *Station) setDistanceAwayFrom(latitude, longitude float64) {
 	dist := math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta))
 	s.Distance = dist * radius
 
-	// log.Printf("DEBUG %s %g", s.NameTW, s.Distance)
+	log.Printf("DEBUG %s %g", s.NameTW, s.Distance)
 }
 
 // IData ...
@@ -59,9 +63,55 @@ func ipStrToNetIP(ip string) net.IP {
 	return netIP
 }
 
+type payloadKeyCDN struct {
+	Status      string `json:"status"`
+	Description string `json:"description"`
+	Data        struct {
+		Geo struct {
+			Host          string  `json:"host"`
+			IP            string  `json:"ip"`
+			RDNS          string  `json:"rdns"`
+			ASN           int     `json:"asn"`
+			ISP           string  `json:"isp"`
+			CountryName   string  `json:"country_name"`
+			CountryCode   string  `json:"country_code"`
+			RegionName    string  `json:"region_name"`
+			RegionCode    string  `json:"region_code"`
+			City          string  `json:"city"`
+			PostalCode    string  `json:"postal_code"`
+			ContinentName string  `json:"continent_name"`
+			ContinentCode string  `json:"continent_code"`
+			Latitude      float64 `json:"latitude"`
+			Longitude     float64 `json:"longitude"`
+			MetroCode     string  `json:"metro_code"`
+			Timezone      string  `json:"timezone"`
+			Datetime      string  `json:"datetime"`
+		} `json:"geo"`
+	} `json:"data"`
+}
+
 func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
-	// TODO
-	return 25.0478, 121.5320
+	url := fmt.Sprintf("https://tools.keycdn.com/geo.json?host=%s", ip)
+	// log.Printf("DEBUG %s", url)
+
+	res, err := http.Get(url)
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	payload := &payloadKeyCDN{}
+	err = json.Unmarshal(body, payload)
+	if err != nil {
+		panic(err)
+	}
+
+	return payload.Data.Geo.Latitude, payload.Data.Geo.Longitude
 
 	// API CALL EXAMPLE
 	//
@@ -95,13 +145,41 @@ func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 	//	}
 }
 
+type payloadGoogle struct {
+	Location struct {
+		Latitude  float64 `json:"lag"`
+		Longitude float64 `json:"lng"`
+	} `json:"location"`
+	Accuracy float64 `json:"accuracy"`
+}
+
 func googleMyLatitudeLongitude() (float64, float64) {
-	// TODO
-	return 25.0626048, 121.6569344
+	url := fmt.Sprintf("https://www.googleapis.com/geolocation/v1/geolocate?key=%s", os.Getenv("GoogleGeolocationAPIKey"))
+	// log.Printf("DEBUG %s", url)
+
+	res, err := http.Post(url, "Content-Type: application/json", strings.NewReader("{}"))
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+	// log.Printf("DEBUG %s", body)
+
+	payload := &payloadGoogle{}
+	err = json.Unmarshal(body, payload)
+	if err != nil {
+		panic(err)
+	}
+
+	return payload.Location.Latitude, payload.Location.Longitude
 
 	// API CALL EXAMPLE
 	//
-	// curl -X POST https://www.googleapis.com/geolocation/v1/geolocate?key=${GoogleGeolocationAPIKey}
+	// curl -X POST https://www.googleapis.com/geolocation/v1/geolocate?key=${GoogleGeolocationAPIKey} -H Content-Type: application/json -d "{}"
 	//
 	//	{
 	//		"location": {
