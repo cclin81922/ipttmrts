@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math"
 	"net"
 	"net/http"
@@ -56,8 +57,14 @@ func Map(data IData) {
 func ipStrToNetIP(ip string) net.IP {
 	netIP := make(net.IP, 0)
 	for _, digit := range strings.Split(ip, ".") {
-		b, _ := strconv.Atoi(digit) // TODO error handling
+		b, _ := strconv.Atoi(digit)
+		if b < 0 || b > 256 {
+			panic("invalid ip")
+		}
 		netIP = append(netIP, byte(b))
+	}
+	if len(netIP) != 4 {
+		panic("invalid ip")
 	}
 	return netIP
 }
@@ -70,7 +77,7 @@ type payloadKeyCDN struct {
 			Host          string  `json:"host"`
 			IP            string  `json:"ip"`
 			RDNS          string  `json:"rdns"`
-			ASN           int     `json:"asn"`
+			ASN           string  `json:"asn"`
 			ISP           string  `json:"isp"`
 			CountryName   string  `json:"country_name"`
 			CountryCode   string  `json:"country_code"`
@@ -98,6 +105,10 @@ func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 		panic(err)
 	}
 	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		panic("wrong http status code")
+	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -161,6 +172,10 @@ func googleMyLatitudeLongitude() (float64, float64) {
 		panic(err)
 	}
 	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		panic("wrong http status code")
+	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -335,10 +350,16 @@ func findNearTaipeiMRTStation(latitude, longitude float64) (nearStation Station)
 }
 
 func main() {
+	defer func() {
+		if err := recover(); err != nil {
+			log.Println(err)
+		}
+	}()
+
 	if len(os.Args) == 1 {
 		fmt.Println(googleMyTaipeiMRTStation())
 	} else {
-		ip := os.Args[1] // TODO error handling
+		ip := os.Args[1]
 		netIP := ipStrToNetIP(ip)
 		fmt.Println(ipToTaipeiMRTStation(netIP))
 	}
