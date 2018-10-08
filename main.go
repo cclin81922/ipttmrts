@@ -272,7 +272,7 @@ func findNearTaipeiMRTStation(latitude, longitude float64) (nearStation Station)
 		&Station{NameTW: "東湖", Latitude: 25.0671258, Longitude: 121.6117183},
 		&Station{NameTW: "葫洲", Latitude: 25.0727158, Longitude: 121.6071548},
 		&Station{NameTW: "大湖公園", Latitude: 25.083009, Longitude: 121.605262},
-		&Station{NameTW: "內湖", Latitude: 25.064786, Longitude: 121.585319},
+		&Station{NameTW: "內湖", Latitude: 25.083718, Longitude: 121.594418},
 		&Station{NameTW: "文德", Latitude: 25.0785484, Longitude: 121.5855236},
 		&Station{NameTW: "港墘", Latitude: 25.080038, Longitude: 121.575102},
 		&Station{NameTW: "西湖", Latitude: 25.082133, Longitude: 121.567213},
