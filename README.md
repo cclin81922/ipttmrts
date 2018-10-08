@@ -47,6 +47,20 @@ func Map(data IData) {
 }
 ```
 
+# For developer
+
+Run all tests
+
+```
+go test
+```
+
+Run selected tests e.g.,
+
+```
+go test -run=TestFindNearTaipeiMRTStation/誠正國中
+```
+
 # Related Resources
 
 * [Online tool to calculate distance between two location by geographic coordinate](http://www.storyday.com/wp-content/uploads/2008/09/latlung_dis.html)
