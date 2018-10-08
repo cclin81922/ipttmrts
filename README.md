@@ -10,12 +10,16 @@ Usage 1
 
 ```
 GoogleGeolocationAPIKey=... ipttmrts
+
+// output the nearest MRT station
 ``` 
 
 Usage 2
 
 ```
 ipttmrts 101.15.22.238
+
+// output the nearest MRT station
 ```
 
 # Package Usage
