@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"math"
 	"net"
 	"net/http"
@@ -38,7 +37,7 @@ func (s *Station) setDistanceAwayFrom(latitude, longitude float64) {
 	dist := math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta))
 	s.Distance = dist * radius
 
-	log.Printf("DEBUG %s %g", s.NameTW, s.Distance)
+	// log.Printf("DEBUG %s %g", s.NameTW, s.Distance)
 }
 
 // IData ...
