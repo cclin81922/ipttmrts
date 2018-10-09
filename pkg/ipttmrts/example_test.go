@@ -16,7 +16,33 @@ package ipttmrts
 
 import (
 	"fmt"
+	"net"
 )
+
+type example struct {
+	ip      net.IP
+	station string
+}
+
+func (e example) GetIP() net.IP {
+	return e.ip
+}
+
+func (e *example) SetStation(s Station) {
+	e.station = s.NameTW
+}
+
+func (e example) String() string {
+	return fmt.Sprintf("ip %s | station %s", e.ip, e.station)
+}
+
+func ExampleMap() {
+	data := &example{ip: []byte{125, 227, 32, 90}}
+	Map(data)
+	fmt.Println(data)
+	//Output:
+	//ip 125.227.32.90 | station 松江南京
+}
 
 func ExampleFindNearTaipeiMRTStation() {
 	fmt.Println(FindNearTaipeiMRTStation(25.054361, 121.619107))
