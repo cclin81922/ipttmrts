@@ -220,6 +220,7 @@ func googleMyTaipeiMRTStation() (nearStation Station) {
 func findNearTaipeiMRTStation(latitude, longitude float64) (nearStation Station) {
 	stations := []*Station{
 		&Station{NameTW: "南港展覽館", Latitude: 25.0553846, Longitude: 121.6182655},
+		&Station{NameTW: "南港", Latitude: 25.052056, Longitude: 121.606569},
 		&Station{NameTW: "昆陽", Latitude: 25.0501585, Longitude: 121.593423},
 		&Station{NameTW: "後山埤", Latitude: 25.045054, Longitude: 121.582522},
 		&Station{NameTW: "永春", Latitude: 25.0407066, Longitude: 121.5765839},
