@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-// Command ipttmrts ...
+// Command ipttmrts outputs the nearest Taipei MRT station according to your current IP address.
 package main
 
 import (
@@ -33,6 +33,7 @@ func main() {
 	if len(os.Args) == 1 {
 		fmt.Println(ipttmrts.GoogleMyTaipeiMRTStation())
 	} else {
+		ip := os.Args[1]
 		fmt.Println(ipttmrts.IPToTaipeiMRTStation(ip))
 	}
 }
