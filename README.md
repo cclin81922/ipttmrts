@@ -61,6 +61,18 @@ Run selected tests e.g.,
 go test -run=TestFindNearTaipeiMRTStation/誠正國中
 ```
 
+Run all benchmarks
+
+```
+go test -bench=. -benchmem
+```
+
+Run selected benchmarks e.g.,
+
+```
+go test -bench=BenchmarkFindNearTaipeiMRTStation/誠正國中 -benchmem
+```
+
 # Related Resources
 
 * [Online tool to calculate distance between two location by geographic coordinate](http://www.storyday.com/wp-content/uploads/2008/09/latlung_dis.html)
