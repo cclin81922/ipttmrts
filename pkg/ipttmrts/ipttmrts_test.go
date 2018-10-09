@@ -1,4 +1,4 @@
-package main
+package ipttmrts
 
 import (
 	"testing"
@@ -124,7 +124,7 @@ func TestFindNearTaipeiMRTStation(t *testing.T) {
 		tc := tc
 		t.Run(tc.poi, func(t *testing.T) {
 			t.Parallel()
-			station := findNearTaipeiMRTStation(tc.latitude, tc.longitude)
+			station := FindNearTaipeiMRTStation(tc.latitude, tc.longitude)
 			if station.NameTW != tc.station {
 				t.Fatalf("expected %s | got %s", tc.station, station.NameTW)
 			}
@@ -150,7 +150,7 @@ func BenchmarkFindNearTaipeiMRTStation(b *testing.B) {
 		bm := bm
 		b.Run(bm.poi, func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
-				findNearTaipeiMRTStation(bm.latitude, bm.longitude)
+				FindNearTaipeiMRTStation(bm.latitude, bm.longitude)
 			}
 		})
 	}

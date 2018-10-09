@@ -1,10 +1,10 @@
-package main
+// Package ipttmrts ...
+package ipttmrts
 
 import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"math"
 	"net"
 	"net/http"
@@ -50,11 +50,12 @@ type IData interface {
 // Map ...
 func Map(data IData) {
 	ip := data.GetIP()
-	station := ipToTaipeiMRTStation(ip)
+	station := IPToTaipeiMRTStation(ip)
 	data.SetStation(station)
 }
 
-func ipStrToNetIP(ip string) net.IP {
+// IPStrToNetIP ...
+func IPStrToNetIP(ip string) net.IP {
 	netIP := make(net.IP, 0)
 	for _, digit := range strings.Split(ip, ".") {
 		b, _ := strconv.Atoi(digit)
@@ -77,7 +78,7 @@ type payloadKeyCDN struct {
 			Host          string  `json:"host"`
 			IP            string  `json:"ip"`
 			RDNS          string  `json:"rdns"`
-			ASN           string  `json:"asn"`
+			ASN           int     `json:"asn"`
 			ISP           string  `json:"isp"`
 			CountryName   string  `json:"country_name"`
 			CountryCode   string  `json:"country_code"`
@@ -205,19 +206,22 @@ func googleMyLatitudeLongitude() (float64, float64) {
 	//	}
 }
 
-func ipToTaipeiMRTStation(ip net.IP) (nearStation Station) {
+// IPToTaipeiMRTStation ...
+func IPToTaipeiMRTStation(ip net.IP) (nearStation Station) {
 	latitude, longitude := ipToLatitudeLongitude(ip)
-	nearStation = findNearTaipeiMRTStation(latitude, longitude)
+	nearStation = FindNearTaipeiMRTStation(latitude, longitude)
 	return
 }
 
-func googleMyTaipeiMRTStation() (nearStation Station) {
+// GoogleMyTaipeiMRTStation ...
+func GoogleMyTaipeiMRTStation() (nearStation Station) {
 	latitude, longitude := googleMyLatitudeLongitude()
-	nearStation = findNearTaipeiMRTStation(latitude, longitude)
+	nearStation = FindNearTaipeiMRTStation(latitude, longitude)
 	return
 }
 
-func findNearTaipeiMRTStation(latitude, longitude float64) (nearStation Station) {
+// FindNearTaipeiMRTStation ...
+func FindNearTaipeiMRTStation(latitude, longitude float64) (nearStation Station) {
 	stations := []*Station{
 		&Station{NameTW: "南港展覽館", Latitude: 25.0553846, Longitude: 121.6182655},
 		&Station{NameTW: "南港", Latitude: 25.052056, Longitude: 121.606569},
@@ -347,20 +351,4 @@ func findNearTaipeiMRTStation(latitude, longitude float64) (nearStation Station)
 	}
 
 	return
-}
-
-func main() {
-	defer func() {
-		if err := recover(); err != nil {
-			log.Println(err)
-		}
-	}()
-
-	if len(os.Args) == 1 {
-		fmt.Println(googleMyTaipeiMRTStation())
-	} else {
-		ip := os.Args[1]
-		netIP := ipStrToNetIP(ip)
-		fmt.Println(ipToTaipeiMRTStation(netIP))
-	}
 }

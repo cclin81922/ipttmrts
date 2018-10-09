@@ -1,7 +1,7 @@
 # Installation
 
 ```
-go get github.com/cclin81922/ipttmrts
+go get github.com/cclin81922/ipttmrts/cmd/ipttmrts
 ```
 
 # Command Line Usage
@@ -52,25 +52,38 @@ func Map(data IData) {
 Run all tests
 
 ```
-go test
+go test github.com/cclin81922/ipttmrts/pkg/ipttmrts
 ```
 
 Run selected tests e.g.,
 
 ```
-go test -run=TestFindNearTaipeiMRTStation/誠正國中
+go test github.com/cclin81922/ipttmrts/pkg/ipttmrts -run=TestFindNearTaipeiMRTStation/誠正國中
 ```
 
 Run all benchmarks
 
 ```
-go test -bench=. -benchmem
+go test github.com/cclin81922/ipttmrts/pkg/ipttmrts -bench=. -benchmem
 ```
 
 Run selected benchmarks e.g.,
 
 ```
-go test -bench=BenchmarkFindNearTaipeiMRTStation/誠正國中 -benchmem
+go test github.com/cclin81922/ipttmrts/pkg/ipttmrts -bench=BenchmarkFindNearTaipeiMRTStation/誠正國中 -benchmem
+```
+
+View API doc by terminal
+
+```
+go doc github.com/cclin81922/ipttmrts/pkg/ipttmrts
+```
+
+View API doc by web browser
+
+```
+godoc -http=:6060
+open http://localhost:6060/pkg/github.com/cclin81922/ipttmrts/pkg/ipttmrts/
 ```
 
 # Related Resources
