@@ -63,13 +63,13 @@ type IData interface {
 
 // Map ...
 func Map(data IData) {
-	ip := data.GetIP()
+	netIP := data.GetIP()
+	ip := fmt.Sprintf("%s", netIP)
 	station := IPToTaipeiMRTStation(ip)
 	data.SetStation(station)
 }
 
-// IPStrToNetIP ...
-func IPStrToNetIP(ip string) net.IP {
+func ipStrToNetIP(ip string) net.IP {
 	netIP := make(net.IP, 0)
 	for _, digit := range strings.Split(ip, ".") {
 		b, _ := strconv.Atoi(digit)
@@ -221,8 +221,9 @@ func googleMyLatitudeLongitude() (float64, float64) {
 }
 
 // IPToTaipeiMRTStation ...
-func IPToTaipeiMRTStation(ip net.IP) (nearStation Station) {
-	latitude, longitude := ipToLatitudeLongitude(ip)
+func IPToTaipeiMRTStation(ip string) (nearStation Station) {
+	netIP := ipStrToNetIP(ip)
+	latitude, longitude := ipToLatitudeLongitude(netIP)
 	nearStation = FindNearTaipeiMRTStation(latitude, longitude)
 	return
 }

@@ -33,8 +33,6 @@ func main() {
 	if len(os.Args) == 1 {
 		fmt.Println(ipttmrts.GoogleMyTaipeiMRTStation())
 	} else {
-		ip := os.Args[1]
-		netIP := ipttmrts.IPStrToNetIP(ip)
-		fmt.Println(ipttmrts.IPToTaipeiMRTStation(netIP))
+		fmt.Println(ipttmrts.IPToTaipeiMRTStation(ip))
 	}
 }

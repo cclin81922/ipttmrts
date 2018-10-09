@@ -51,7 +51,7 @@ func ExampleFindNearTaipeiMRTStation() {
 }
 
 func ExampleIPToTaipeiMRTStation() {
-	fmt.Println(IPToTaipeiMRTStation([]byte{125, 227, 32, 90}))
+	fmt.Println(IPToTaipeiMRTStation("125.22.32.90"))
 	//Output:
 	//松江南京
 }
