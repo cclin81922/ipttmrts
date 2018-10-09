@@ -1,7 +1,7 @@
 # Installation
 
 ```
-go get github.com/cclin81922/ipttmrts/cmd/ipttmrts
+go get -u github.com/cclin81922/ipttmrts/cmd/ipttmrts
 export PATH=$PATH:~/go/bin
 ```
 
