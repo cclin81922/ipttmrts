@@ -26,6 +26,8 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+
+	"github.com/golang/glog"
 )
 
 // Station ...
@@ -52,7 +54,7 @@ func (s *Station) setDistanceAwayFrom(latitude, longitude float64) {
 	dist := math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta))
 	s.Distance = dist * radius
 
-	// log.Printf("DEBUG %s %g", s.NameTW, s.Distance)
+	glog.V(2).Infof("DEBUG %s %g", s.NameTW, s.Distance)
 }
 
 // IData ...
@@ -113,7 +115,7 @@ type payloadKeyCDN struct {
 
 func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 	url := fmt.Sprintf("https://tools.keycdn.com/geo.json?host=%s", ip)
-	// log.Printf("DEBUG %s", url)
+	glog.V(2).Infof("DEBUG %s", url)
 
 	res, err := http.Get(url)
 	if err != nil {
@@ -129,6 +131,7 @@ func ipToLatitudeLongitude(ip net.IP) (float64, float64) {
 	if err != nil {
 		panic(err)
 	}
+	glog.V(3).Infof("DEBUG %s", body)
 
 	payload := &payloadKeyCDN{}
 	err = json.Unmarshal(body, payload)
@@ -180,7 +183,7 @@ type payloadGoogle struct {
 
 func googleMyLatitudeLongitude() (float64, float64) {
 	url := fmt.Sprintf("https://www.googleapis.com/geolocation/v1/geolocate?key=%s", os.Getenv("GoogleGeolocationAPIKey"))
-	// log.Printf("DEBUG %s", url)
+	glog.V(2).Infof("DEBUG %s", url)
 
 	res, err := http.Post(url, "Content-Type: application/json", strings.NewReader("{}"))
 	if err != nil {
@@ -196,7 +199,7 @@ func googleMyLatitudeLongitude() (float64, float64) {
 	if err != nil {
 		panic(err)
 	}
-	// log.Printf("DEBUG %s", body)
+	glog.V(3).Infof("DEBUG %s", body)
 
 	payload := &payloadGoogle{}
 	err = json.Unmarshal(body, payload)
@@ -204,7 +207,7 @@ func googleMyLatitudeLongitude() (float64, float64) {
 		panic(err)
 	}
 
-	// log.Printf("DEBUG %g %g", payload.Location.Latitude, payload.Location.Longitude)
+	glog.V(2).Infof("DEBUG %g %g", payload.Location.Latitude, payload.Location.Longitude)
 	return payload.Location.Latitude, payload.Location.Longitude
 
 	// API CALL EXAMPLE

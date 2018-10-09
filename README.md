@@ -18,10 +18,12 @@ GoogleGeolocationAPIKey=... ipttmrts
 Usage 2
 
 ```
-ipttmrts 101.15.22.238
+ipttmrts -ip=101.15.22.238
 
 // output the nearest MRT station
 ```
+
+To output debug message as well, use flag `-logtostderr=true -v=2`
 
 # Package Usage
 
@@ -91,6 +93,7 @@ open http://localhost:6060/pkg/github.com/cclin81922/ipttmrts/pkg/ipttmrts/
 
 * [Online tool to calculate distance between two location by geographic coordinate](http://www.storyday.com/wp-content/uploads/2008/09/latlung_dis.html)
 * [Open data of Taipei MRT stations locations with geographic coordinate](https://fusiontables.google.com/DataSource?docid=1QL2wqpruEvkPKhfb14Md9JMBzQIcKFFJ8wfAmORu#card:id=2)
-* [Goland code to calculate distance between two location by geographic coordinate](https://blog.csdn.net/u013421629/article/details/72722714)
+* [Golang code gist which calculates distance between two location by geographic coordinate](https://blog.csdn.net/u013421629/article/details/72722714)
+* [Golang code gist which demonstrates glog usage](https://gist.github.com/heatxsink/7221ebe499b0767d4784)
 * [Google Geolocation API to get location geographic coordinate](https://developers.google.com/maps/documentation/geolocation/intro)
 * [KeyCDN API to get locaiton geographic coordinate](https://tools.keycdn.com/geo)

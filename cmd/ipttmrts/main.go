@@ -16,24 +16,43 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/cclin81922/ipttmrts/pkg/ipttmrts"
+	"github.com/golang/glog"
 )
+
+var (
+	flagIP string
+)
+
+func usage() {
+	fmt.Fprintf(os.Stderr, "usage: ipttmrts -stderrthreshold=[INFO|WARN|FATAL] -log_dir=[string]\n")
+	flag.PrintDefaults()
+	os.Exit(2)
+}
+
+func init() {
+	flag.StringVar(&flagIP, "ip", "", "IP address which will be used for finding the nearest Taipei MRT station")
+	flag.Usage = usage
+	flag.Parse()
+}
 
 func main() {
 	defer func() {
+		glog.Flush()
 		if err := recover(); err != nil {
 			log.Println(err)
 		}
 	}()
 
-	if len(os.Args) == 1 {
+	if flagIP == "" {
 		fmt.Println(ipttmrts.GoogleMyTaipeiMRTStation())
 	} else {
-		ip := os.Args[1]
-		fmt.Println(ipttmrts.IPToTaipeiMRTStation(ip))
+		fmt.Println(ipttmrts.IPToTaipeiMRTStation(flagIP))
 	}
+
 }
