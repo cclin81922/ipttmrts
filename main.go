@@ -296,7 +296,6 @@ func findNearTaipeiMRTStation(latitude, longitude float64) (nearStation Station)
 		&Station{NameTW: "松江南京", Latitude: 25.0512257, Longitude: 121.5327387},
 		&Station{NameTW: "北門", Latitude: 25.0490258, Longitude: 121.5099912},
 		&Station{NameTW: "小南門", Latitude: 25.035534, Longitude: 121.51088},
-		&Station{NameTW: "中正紀念堂", Latitude: 25.032729, Longitude: 121.51827},
 		&Station{NameTW: "古亭", Latitude: 25.0261342, Longitude: 121.522922},
 		&Station{NameTW: "台電大樓", Latitude: 25.017557, Longitude: 121.531394},
 		&Station{NameTW: "公館", Latitude: 25.011943, Longitude: 121.537818},
