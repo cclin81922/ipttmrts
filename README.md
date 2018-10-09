@@ -2,6 +2,7 @@
 
 ```
 go get github.com/cclin81922/ipttmrts/cmd/ipttmrts
+export PATH=$PATH:~/go/bin
 ```
 
 # Command Line Usage
@@ -25,7 +26,7 @@ ipttmrts 101.15.22.238
 # Package Usage
 
 ```
-import "github.com/cclin81922/ipttmrts"
+import "github.com/cclin81922/ipttmrts/pkg/ipttmrts"
 
 func demo(data ipttmrts.IData) {
     ipttmrts.Map(data)
