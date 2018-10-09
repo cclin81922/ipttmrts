@@ -12,7 +12,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-// Package ipttmrts ...
+// Package ipttmrts is for mapping your current IP address to the nearest Taipei MRT station.
 package ipttmrts
 
 import (
