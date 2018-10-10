@@ -82,11 +82,17 @@ View API doc by terminal
 go doc github.com/cclin81922/ipttmrts/pkg/ipttmrts
 ```
 
-View API doc by web browser
+View API doc by web browser (offline)
 
 ```
 godoc -http=:6060
-open http://localhost:6060/pkg/github.com/cclin81922/ipttmrts/pkg/ipttmrts/
+open http://localhost:6060/pkg/github.com/cclin81922/ipttmrts/pkg/ipttmrts
+```
+
+View API doc by web browser (online)
+
+```
+open https://godoc.org/github.com/cclin81922/ipttmrts/pkg/ipttmrts
 ```
 
 # Related Resources
