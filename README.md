@@ -35,21 +35,6 @@ func demo(data ipttmrts.IData) {
 }
 ```
 
-# About IData interface and Map function
-
-```
-type IData interface {
-    GetIP() net.IP
-    SetStation(Station)
-}
-
-func Map(data IData) {
-    ip := data.GetIP()
-    station  := ipToTaipeiMRTStation(ip)
-    data.SetStation(station)
-}
-```
-
 # For developer
 
 Run all tests

@@ -50,9 +50,18 @@ func main() {
 	}()
 
 	if flagIP == "" {
-		fmt.Println(ipttmrts.GoogleMyTaipeiMRTStation())
+		if station, err := ipttmrts.GoogleMyTaipeiMRTStation(); err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(station)
+		}
+		fmt.Println()
 	} else {
-		fmt.Println(ipttmrts.IPToTaipeiMRTStation(flagIP))
+		if station, err := ipttmrts.IPToTaipeiMRTStation(flagIP); err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(station)
+		}
 	}
 
 }

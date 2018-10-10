@@ -64,11 +64,13 @@ type IData interface {
 }
 
 // Map ...
-func Map(data IData) {
+func Map(data IData) (err error) {
 	netIP := data.GetIP()
 	ip := fmt.Sprintf("%s", netIP)
-	station := IPToTaipeiMRTStation(ip)
-	data.SetStation(station)
+	if station, err := IPToTaipeiMRTStation(ip); err == nil {
+		data.SetStation(station)
+	}
+	return
 }
 
 func ipStrToNetIP(ip string) net.IP {
@@ -224,7 +226,14 @@ func googleMyLatitudeLongitude() (float64, float64) {
 }
 
 // IPToTaipeiMRTStation ...
-func IPToTaipeiMRTStation(ip string) (nearStation Station) {
+func IPToTaipeiMRTStation(ip string) (nearStation Station, err error) {
+	defer func() {
+		if e := recover(); e != nil {
+			err = fmt.Errorf("%s", e)
+		}
+		return
+	}()
+
 	netIP := ipStrToNetIP(ip)
 	latitude, longitude := ipToLatitudeLongitude(netIP)
 	nearStation = FindNearTaipeiMRTStation(latitude, longitude)
@@ -232,7 +241,14 @@ func IPToTaipeiMRTStation(ip string) (nearStation Station) {
 }
 
 // GoogleMyTaipeiMRTStation ...
-func GoogleMyTaipeiMRTStation() (nearStation Station) {
+func GoogleMyTaipeiMRTStation() (nearStation Station, err error) {
+	defer func() {
+		if e := recover(); e != nil {
+			err = fmt.Errorf("%s", e)
+		}
+		return
+	}()
+
 	latitude, longitude := googleMyLatitudeLongitude()
 	nearStation = FindNearTaipeiMRTStation(latitude, longitude)
 	return
