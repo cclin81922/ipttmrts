@@ -35,7 +35,7 @@ func demo(data ipttmrts.IData) {
 }
 ```
 
-# For developer
+# For Developer
 
 Run all tests
 
