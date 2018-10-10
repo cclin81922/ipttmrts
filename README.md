@@ -82,6 +82,7 @@ open https://godoc.org/github.com/cclin81922/ipttmrts/pkg/ipttmrts
 
 # Related Resources
 
+* [The greate circle distance](http://wywu.pixnet.net/blog/post/26533759-%E7%B6%93%E7%B7%AF%E5%BA%A6%E8%A8%88%E7%AE%97%E8%B7%9D%E9%9B%A2%E5%85%AC%E5%BC%8F)
 * [Online tool to calculate distance between two location by geographic coordinate](http://www.storyday.com/wp-content/uploads/2008/09/latlung_dis.html)
 * [Open data of Taipei MRT stations locations with geographic coordinate](https://fusiontables.google.com/DataSource?docid=1QL2wqpruEvkPKhfb14Md9JMBzQIcKFFJ8wfAmORu#card:id=2)
 * [Golang code gist which calculates distance between two location by geographic coordinate](https://blog.csdn.net/u013421629/article/details/72722714)
